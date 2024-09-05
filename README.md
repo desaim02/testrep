@@ -1,1 +1,1 @@
-This is classwork for APPM 4600 for Mitali Desai. 
+This is classwork for APPM 4600 for Mitali Desai. It is broken up into labs and HW.
