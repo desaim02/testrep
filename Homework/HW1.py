@@ -18,17 +18,9 @@ def driver():
     plt.xlabel('x')
     plt.ylabel('y')
     plt.title('(x-2)^9')
-    plt.legend()  # Show legend to differentiate between plots
-    plt.show()
+    plt.legend()  
 
 driver()
-
-# The difference is that (x-2)^9 with polynomials is much less precise than the original (x-2)^9 function. 
-# The discrepency is caused because of the repeated subtractions which is losing accuracy. 
-# In the original function, there is only subtraction being done. 
-# Whereas the expanded function has 5 subtractions being done and with each subtraction, precision is lost. 
-# The "most correct" plot would be (x-2)^9. 
-
 
 # Problem 3 
 
@@ -39,14 +31,11 @@ def f(x):
 
 def P(x):
     return 1+x-((x**2)/2)
-   #return  1 + x*(((1+x+x**3)*(-np.sin(x))) + (np.cos(x)*(1+3*x**2))) + ((.5*x**2)*((x**3)+6*x+x-1)*np.cos(x))
 
 print("P(.5) is", P(.5))
 print("f(.5) is", f(.5))
 
 print(" The actual error is", abs(f(.5) - P(.5)))
-
-
 
 #Problem 4
 
@@ -92,7 +81,6 @@ print(rel1,rel2)
 
 # Problem 5
 
-
 # A
 
 
@@ -114,110 +102,48 @@ Delta = 10**DeltaExp.astype(float)
 
 y1og = [original(x1,S) for S in Delta]
 y1manip = [manip(x1,S) for S in Delta]
+diff1 = np.array(y1og)-np.array(y1manip)
 
 y2og = [original(x2,S) for S in Delta]
 y2manip = [manip(x2,S) for S in Delta]
+diff2 = np.array(y2og) -np.array(y2manip)
 
-plt.plot (Delta,y1og, label= "original function")
-plt.plot (Delta,y1manip, label= 'manipulated function')
+plt.plot(Delta,diff1)
 plt.xscale('log')
-plt.xlabel('S')
-plt.ylabel('y')
-plt.title(x = {x1})
-plt.legend()  
+plt.title(f"Difference between original and manipulated function for x = pi")
 plt.show()
 
-plt.plot (Delta,y2og, label= "original function")
-plt.plot (Delta,y2manip, label= 'manipulated function')
+plt.plot(Delta,diff2)
 plt.xscale('log')
-plt.xlabel('S')
-plt.ylabel('y')
-plt.title(x = {x2})
-plt.legend()  
+plt.title(f"Difference between original and manipulated function for x = {x2}")
 plt.show()
-
 
 # C
 
 def algo(x,S):
-    return -S*np.sin(x) + .5*S**2*np.cos(E) #PUT E IN
+    return -S*np.sin(x)
 
 y1algo = [algo(x1,S) for S in Delta]
 y2algo = [algo(x2,S) for S in Delta]
 
-plt.plot (Delta,y1og, label= "original function")
-plt.plot (Delta,y1manip, label= 'manipulated function')
-plt.plot (Delta,y1algo,label="algorithm")
-plt.xscale('log')
-plt.xlabel('S')
-plt.ylabel('y')
-plt.title(x = {x1})
-plt.legend()  
-plt.show()
+diff1pt2 = np.array(y1og) - np.array(y1algo)
+diff2pt2 = np.array(y2og) - np.array(y2algo)
 
-plt.plot (Delta,y2og, label= "original function")
-plt.plot (Delta,y2manip, label= 'manipulated function')
-plt.plot (Delta,y2algo,label="algorithm")
-plt.xscale('log')
-plt.xlabel('S')
-plt.ylabel('y')
-plt.title(x = {x2})
-plt.legend()  
-plt.show()
+# plt.plot(Delta,diff1pt2)
+# plt.xscale('log')
+# plt.title(f"Difference between original and algorithm for x = pi")
+# plt.show()
 
+# plt.plot(Delta,diff2pt2)
+# plt.xscale('log')
+# plt.title(f"Difference between original and algorithm for x = {x2}")
+# plt.show()
 
+print(Delta)
+print(diff1)
+print(diff1pt2)
 
-# Part b
-
-# Function to compute direct difference and modified expression
-def cos_diff_direct(x, delta):
-    return np.cos(x + delta) - np.cos(x)
-
-def cos_diff_manip(x, delta):
-    return -2 * np.sin((2*x + delta) / 2) * np.sin(delta / 2)
-
-# Define x values
-x_values = [np.pi, 1e6]
-
-# Define delta values
-delta_values = np.logspace(-16, 0, num=16)
-
-# Plotting
-plt.figure(figsize=(10, 5))
-
-for x in x_values:
-    direct_diff = [cos_diff_direct(x, delta) for delta in delta_values]
-    manip_diff = [cos_diff_manip(x, delta) for delta in delta_values]
-
-    plt.loglog(delta_values, np.abs(np.array(direct_diff) - np.array(manip_diff)), label=f'x = {x}')
-    
-plt.xlabel('Delta')
-plt.ylabel('Absolute Difference')
-plt.title('Difference between Direct Subtraction and Manipulated Expression')
-plt.legend()
-
-plt.savefig("HW1.5.b.png")
-plt.clf
-
-# Part c
-
-# Function using Taylor expansion
-def cos_diff_taylor(x, delta):
-    return -delta * np.sin(x) + (delta ** 2 / 2) * (-np.cos(x))
-
-# Compare Taylor expansion with other methods
-plt.figure(figsize=(10, 5))
-
-for x in x_values:
-    taylor_diff = [cos_diff_taylor(x, delta) for delta in delta_values]
-    manip_diff = [cos_diff_manip(x, delta) for delta in delta_values]
-
-    plt.loglog(delta_values, np.abs(np.array(taylor_diff) - np.array(manip_diff)), label=f'x = {x}')
-
-plt.xlabel('Delta')
-plt.ylabel('Absolute Difference')
-plt.title('Difference between Taylor Expansion and Manipulated Expression')
-plt.legend()
-
-plt.savefig("HW1.5.c.png")
+print(Delta)
+print(diff2)
+print(diff2pt2)
 
