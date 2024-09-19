@@ -74,12 +74,18 @@ def driver2b():
 driver2b()
 
 #3
+# def Aitken(x):
+#     pn = np.abs(x[0::])
+#     pn1 = np.abs(x[1::])
+#     pn2 = np.abs(x[2::])
+#     p = pn- ((pn1 - pn)**2 / pn2-2*pn1+pn)
+#     print(p)
+
 def Aitken(x):
-    pn = np.abs(x[0::])
-    pn1 = np.abs(x[1::])
-    pn2 = np.abs(x[2::])
-    p = pn- ((pn1 - pn)**2 / pn2-2*pn1+pn)
-    print(p)
+    xn = x[:-2]
+    xn1 = x[1:-1]
+    xn2 = x[2:]
+    return xn- ((xn1 - xn)**2 / xn2-2*xn1-xn)
 
 def driver3a():
      f1 = lambda x: (10/(x+4))**.5
@@ -87,7 +93,9 @@ def driver3a():
      tol = 1e-10
      x0 = 1.5
      [xstar,x,ier] = modfixedpt(f1,x0,tol,Nmax)
+     xstar = x[-1]
      x = x-x[-1]
-     Aitken(x)
+     aitkensx = Aitken(x)
+     compute_order(aitkensx, xstar)
     
 driver3a()
