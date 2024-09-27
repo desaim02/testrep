@@ -81,7 +81,7 @@ def newton(f,fp,p0,tol,Nmax):
   info = 1
   return [p,pstar,info,it]
 
-def newt_bisection(f,fp,fpp,a,b,tol):
+def newt_bisection(f,fp,fpp,a,b,tol,nmax):
 
 #     first verify there is a root we can find in the interval 
     count = 0
@@ -106,10 +106,9 @@ def newt_bisection(f,fp,fpp,a,b,tol):
 
     d = 0.5*(a+b) #d is midpoint 
     gp = lambda x: (f(x)*fpp(x)) / (fp(x))**2
-    if abs(gp(d)) <1:
+    if abs(gp(d)) >1:
         print ('midpoint is in the basin of convergence')
-        Nmax = 100
-        [p,pstar,info,it] = newton(f,fp,d,tol,Nmax)
+        [p,pstar,info,it] = newton(f,fp,d,tol,nmax)
         print('the array of the iterates is', p)
         print('the last iterate is', pstar)
         print('the sucess message (0 good) is', info)
@@ -169,10 +168,11 @@ def driver6c():
     a = 2
     b = 4.5
     tol = 10**-8
+    nmax=100
     f = lambda x: np.exp(x**2+7*x-30) - 1
     fp = lambda x: (2*x+7)*np.exp(x**2+7*x-30)
     fpp = lambda x: (2*x+7)*(2*x+7)*np.exp(x**2+7*x-30) + 2*np.exp(x**2+7*x-30)
-    newt_bisection(f,fp,fpp,a,b,tol)
+    newt_bisection(f,fp,fpp,a,b,tol,nmax)
 
 driver6c()
 
