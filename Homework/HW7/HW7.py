@@ -19,8 +19,8 @@ def  eval_monomial(xeval,coef,N,Neval):
         yeval[i] = yeval[i] + coef[j]*xeval[i]**j
 
     return yeval
-
-   
+  
+  
 def Vandermonde(xint,N):
 
     V = np.zeros((N+1,N+1))
@@ -36,8 +36,6 @@ def Vandermonde(xint,N):
     return V     
 
 # 1b 
-
-
 
 # Code for seeing multiple plots on one 
 def drivermult(N,ax): 
@@ -114,8 +112,7 @@ def drivermult2():
     plt.legend()
     plt.show()
 
-#drivermult2()
-
+drivermult2()
 
 
 def driver1(N): 
@@ -214,6 +211,46 @@ def evalDDpoly(xval, xint,y,N):
 
     return yeval
 
+def lagrange_bary(x_eval, x_interp, y_interp, degree, func):
+
+    # temp_val = np.ones(degree+1)
+    
+    # for index in range(degree+1):
+    #    for j in range(degree+1):
+    #        if (j != index):
+    #           temp_val[index] = temp_val[index]*(x_eval - x_interp[j])/(x_interp[index]-x_interp[j])
+
+    # y_result = 0
+    
+    # for j in range(degree+1):
+    #    y_result = y_result + y_interp[j]*temp_val[j]
+
+    product_term = 1
+
+    for x_int in x_interp:
+        if x_int != x_eval:
+            product_term *= (x_eval - x_int)
+
+    total_sum = 0
+
+    for j in range(degree+1):
+
+        denom = 1
+
+        for i in range(degree+1):
+            if x_interp[j] != x_interp[i]:
+                denom *= (x_interp[j] - x_interp[i])
+            
+        weight = 1 / denom
+
+        total_sum += (weight / (x_eval - x_interp[j])) * func(x_interp[j])
+    
+    y_result = product_term * total_sum
+
+    return y_result
+
+
+
 def driver2(N):
     f = lambda x: 1/(1+(10*x)**2)
     a = -1
@@ -226,20 +263,22 @@ def driver2(N):
     Neval = 1000
     xeval = np.linspace(a,b,Neval+1)
     yeval_l= np.zeros(Neval+1)
-    yeval_dd = np.zeros(Neval+1)
+    yeval_lb= np.zeros(Neval+1)
+    #yeval_dd = np.zeros(Neval+1)
   
     '''Initialize and populate the first columns of the 
      divided difference matrix. We will pass the x vector'''
-    y = np.zeros( (N+1, N+1) )
+   # y = np.zeros( (N+1, N+1) )
      
-    for j in range(N+1):
-       y[j][0]  = yint[j]
+    # for j in range(N+1):
+    #    y[j][0]  = yint[j]
 
-    y = dividedDiffTable(xint, y, N+1)
+    # y = dividedDiffTable(xint, y, N+1)
     ''' evaluate lagrange poly '''
     for kk in range(Neval+1):
-       yeval_l[kk] = eval_lagrange(xeval[kk],xint,yint,N)
-       yeval_dd[kk] = evalDDpoly(xeval[kk],xint,y,N)
+       #yeval_l[kk] = eval_lagrange(xeval[kk],xint,yint,N)
+       yeval_lb[kk] = lagrange_bary(xeval[kk],xint,yint,N,f)
+       #yeval_dd[kk] = evalDDpoly(xeval[kk],xint,y,N)
           
 
     ''' create vector with exact values'''
@@ -249,8 +288,9 @@ def driver2(N):
     plt.figure()    
     plt.plot(xint,yint,'o',label=f'Nodes N={N}',markersize=10, markeredgewidth=2, markeredgecolor='black', markerfacecolor='red')
     plt.plot(xeval,fex,'ro-', label = "exact function")
-    plt.plot(xeval,yeval_l,'bs--', label = "Lagrange Approx") 
-    plt.plot(xeval,yeval_dd,'c.--', label = "Divided Diff Approx")
+    #plt.plot(xeval,yeval_l,'bs--', label = "Lagrange Approx") 
+    plt.plot(xeval,yeval_lb,'bs--', label = "Lagrange Barry Approx") 
+    #plt.plot(xeval,yeval_dd,'c.--', label = "Divided Diff Approx")
     plt.legend()
 
     # plt.figure() 
@@ -262,10 +302,9 @@ def driver2(N):
     plt.show()
     return 
 
-
-# driver2(17)
-# driver2(18)
-# driver2(19)
+driver2(17)
+driver2(18)
+driver2(19)
 
 #3 
 # use monomial basis (part a)
@@ -315,8 +354,8 @@ def driver3(N):
 
     return
 
-#driver3(17)
-#driver3(18)
+driver3(17)
+driver3(18)
 
 
 # Trying to find why even vs odd N's produce such different results. 
@@ -329,3 +368,4 @@ def driver3(N):
 #     plt.show()
     
 # xfunc(18)
+
