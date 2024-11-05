@@ -6,7 +6,7 @@ from scipy.integrate import quad
 
 def driver1():
     xvals = np.linspace(0,5,100)
-    Maclaurin = lambda x: x - x**3/6 +x**5/math.factorial(5) - x**7/math.factorial(7) + x**9/math.factorial(9) -x**11/math.factorial(11)
+    Maclaurin = lambda x: x - x**3/6 +x**5/math.factorial(5) 
     acpade = lambda x: (x - (7/60)*x**3) / (1+(1/20)*x**2)
     bpade = lambda x: x / (1+(1/6)*x**2+(7/360)*x**4)
     realfunc = lambda x: np.sin(x)
@@ -57,7 +57,7 @@ def driver3a(type):
     n = 10
     f = lambda s: 1/(1+(s**2))          
     xvals = np.linspace(a,b,n)
-    exact = 2.746801533890032
+    exact = 2*math.atan(5)
     to_sum = []
     for i in range(n-1):
         if type == "Trap":
@@ -91,7 +91,7 @@ def driver3c():
 
 
 
-#PROF CODE
+#PROF CODE - used for 3c
 def driver():
     
     f = lambda s: 1/(1+(s**2))          
@@ -99,7 +99,7 @@ def driver():
     b = 5
     
     # exact integral
-    I_ex = 2.746801533890032
+    I_ex = 2*math.atan(5)
     
 #    N =100
 #    ntest = np.arrange(0,N,step=2)
@@ -112,7 +112,7 @@ def driver():
 
 # for simpson's n must be even.        
 # n+1 = number of pts.
-    n = 110
+    n = 220
     I_trap = CompTrap(a,b,n,f)
     print('I_trap= ', I_trap)
     
@@ -159,7 +159,7 @@ def CompSimp(a,b,n,f):
     
     return I_simp   
 
-#driver()
+driver()
     
 
 
