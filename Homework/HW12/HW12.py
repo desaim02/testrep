@@ -12,4 +12,3 @@ x,y,z = 2.6,-3.8,-5
 # if this is 0 (or close to 0), then solution is verified
 print(f(x,y,z),g(x,y,z),h(x,y,z))
 
-#b
